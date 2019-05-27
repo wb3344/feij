@@ -29,7 +29,7 @@ YELLOW = (255, 255, 0)
 #初始化pygame模块，创建游戏窗口、游戏窗口命名、创建跟踪时间对象
 pygame.init()
 pygame.mixer.init()  #初始化音效
-screen = pygame.display.set_mode((WIDTH,HEIGHT))
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Aircraft Battle")
 clock = pygame.time.Clock()
 
@@ -39,21 +39,21 @@ font_name = pygame.font.match_font('arial')
 #######################################加载图片#######################################
 
 #加载游戏进行中背景图片
-background = pygame.image.load(path.join(img_dir,'starfield.png')).convert()
-background = pygame.transform.scale(background,(WIDTH,1536))
+background = pygame.image.load(path.join(img_dir, 'starfield.png')).convert()
+background = pygame.transform.scale(background, (WIDTH, 1536))
 height = -936
 
 #加载玩家图片
-player_img = pygame.image.load(path.join(img_dir,'player.png')).convert()
-player_mini_img = pygame.transform.scale(player_img,(25, 19))
+player_img = pygame.image.load(path.join(img_dir, 'player.png')).convert()
+player_mini_img = pygame.transform.scale(player_img, (25, 19))
 player_mini_img.set_colorkey(BLACK)
 
 #加载玩家炮弹、导弹图片
-bullet_img = pygame.image.load(path.join(img_dir,'bullet.png')).convert()
-missile_img = pygame.image.load(path.join(img_dir,'missile.png')).convert_alpha()
+bullet_img = pygame.image.load(path.join(img_dir, 'bullet.png')).convert()
+missile_img = pygame.image.load(path.join(img_dir, 'missile.png')).convert_alpha()
 
 #加载敌机炮弹图片
-enemies_bullet_img = pygame.image.load(path.join(img_dir,'enemies_bullet.png')).convert()
+enemies_bullet_img = pygame.image.load(path.join(img_dir, 'enemies_bullet.png')).convert()
 
 #加载盾牌、闪电图片
 powerup_images = {}
@@ -77,8 +77,8 @@ lava_list = [
     'lava_tiny.png'
 ]
 for image in enemies_list:
-    enemies_img = pygame.image.load(path.join(img_dir,image)).convert()
-    enemies_img = pygame.transform.scale(enemies_img,(80, 60))
+    enemies_img = pygame.image.load(path.join(img_dir, image)).convert()
+    enemies_img = pygame.transform.scale(enemies_img, (80, 60))
     enemies_images.append(enemies_img)
 for image in lava_list:
     lava_images.append(pygame.image.load(path.join(img_dir,image)).convert())
@@ -91,17 +91,17 @@ explosion_anim['player'] = []
 for i in range(9):
     #敌机、火山石爆炸
     filename = 'regularExplosion0{}.png'.format(i)
-    img = pygame.image.load(path.join(img_dir,filename)).convert()
+    img = pygame.image.load(path.join(img_dir, filename)).convert()
     img.set_colorkey(BLACK)
     #大爆炸    
-    img_lg = pygame.transform.scale(img,(75,75))
+    img_lg = pygame.transform.scale(img, (75, 75))
     explosion_anim['lg'].append(img_lg)
     #小爆炸
-    img_sm = pygame.transform.scale(img,(32,32))
+    img_sm = pygame.transform.scale(img, (32, 32))
     explosion_anim['sm'].append(img_sm)
     #玩家爆炸
     filename = 'sonicExplosion0{}.png'.format(i)
-    img = pygame.image.load(path.join(img_dir,filename)).convert()
+    img = pygame.image.load(path.join(img_dir, filename)).convert()
     img.set_colorkey(BLACK)
     explosion_anim['player'].append(img)
 
@@ -468,7 +468,7 @@ while running:
         main_menu()
         pygame.time.wait(3000)
         pygame.mixer.music.stop()
-        pygame.mixer.music.load(path.join(sound_folder,'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
+        pygame.mixer.music.load(path.join(sound_folder, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
         pygame.mixer.music.play(-1)
         menu_display = False
 
@@ -499,7 +499,7 @@ while running:
     all_sprites.update()
     
     #敌机与玩家炮弹碰撞检测
-    hits = pygame.sprite.groupcollide(mobs,bullets,True,True)    
+    hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
     for hit in hits:
         score += 50-hit.radius
         random.choice(expl_sounds).play()       
@@ -512,7 +512,7 @@ while running:
         newmob()
     
     #火山石与玩家炮弹碰撞检测
-    hits = pygame.sprite.groupcollide(lavas,bullets,True,True)    
+    hits = pygame.sprite.groupcollide(lavas, bullets, True, True)
     for hit in hits:
         score += 50-hit.radius
         random.choice(expl_sounds).play()      
@@ -525,7 +525,7 @@ while running:
         newlava()
 
     #玩家与敌机碰撞检测
-    hits = pygame.sprite.spritecollide(player,mobs,True,pygame.sprite.collide_circle)
+    hits = pygame.sprite.spritecollide(player, mobs, True, pygame.sprite.collide_circle)
     for hit in hits:
         player.shield -= hit.radius*2
         expl = Explosion(hit.rect.center,'sm')
@@ -533,14 +533,14 @@ while running:
         newmob()
         if player.shield <= 0: 
             player_die_sound.play()
-            death_explosion = Explosion(player.rect.center,'player')
+            death_explosion = Explosion(player.rect.center, 'player')
             all_sprites.add(death_explosion)
             player.hide()
             player.lives -= 1
             player.shield = 100
 
     #玩家与火山石碰撞检测
-    hits = pygame.sprite.spritecollide(player,lavas,True,pygame.sprite.collide_circle)
+    hits = pygame.sprite.spritecollide(player, lavas, True, pygame.sprite.collide_circle)
     for hit in hits:
         player.shield -= hit.radius*2
         expl = Explosion(hit.rect.center,'sm')
@@ -548,14 +548,14 @@ while running:
         newlava()
         if player.shield <= 0: 
             player_die_sound.play()
-            death_explosion = Explosion(player.rect.center,'player')
+            death_explosion = Explosion(player.rect.center, 'player')
             all_sprites.add(death_explosion)
             player.hide()
             player.lives -= 1
             player.shield = 100
     
     #玩家与敌机炮弹碰撞检测
-    hits = pygame.sprite.spritecollide(player,enemies_bullets,True,pygame.sprite.collide_circle)
+    hits = pygame.sprite.spritecollide(player, enemies_bullets, True, pygame.sprite.collide_circle)
     for hit in hits:
         player.shield -= hit.radius*2
         expl = Explosion(hit.rect.center,'sm')
@@ -588,15 +588,15 @@ while running:
 
     #背景画卷向下滚动
     screen.fill(BLACK)    
-    screen.blit(background,(0,height))
+    screen.blit(background, (0, height))
     height += 2
     if height >= -168:
         height = -936
 
     all_sprites.draw(screen)
-    draw_text(screen,str(score),18,WIDTH/2,10)
-    draw_shield_bar(screen,5,5,player.shield)    
-    draw_lives(screen,WIDTH-100,5,player.lives,player_mini_img)
+    draw_text(screen,str(score), 18, WIDTH/2,10)
+    draw_shield_bar(screen, 5, 5, player.shield)
+    draw_lives(screen, WIDTH-100, 5, player.lives, player_mini_img)
 
     pygame.display.flip()    
 
